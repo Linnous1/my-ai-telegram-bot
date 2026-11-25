@@ -88,7 +88,7 @@ export default {
         return new Response('OK');
       }
 
-      if (lowerText.startsWith('/img')  lowerText.includes('ပုံထုတ်') || lowerText.includes('image')) {
+      if (lowerText.startsWith('/img') || lowerText.includes('ပုံထုတ်') || lowerText.includes('image')) {
         let prompt = text.replace(/\/img|ပုံထုတ်ပေး|ပုံထုတ်|ပုံဆွဲ|image|picture|draw/gi, '').trim();
         if (!prompt) prompt = "a beautiful landscape"; 
         const imageResponse = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', { prompt: prompt });
