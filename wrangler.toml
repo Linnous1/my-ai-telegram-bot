@@ -1,0 +1,10 @@
+name = "my-ai-telegram-bot"
+main = "src/index.js"
+compatibility_date = "2024-03-20"
+
+[ai]
+binding = "AI"
+
+[[kv_namespaces]]
+binding = "CHAT_HISTORY"
+id = "fac5892ec2d94c03b0814247652cedff"
