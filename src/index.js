@@ -1,4 +1,4 @@
-import { PDFDocument } from 'https://esm.sh/pdf-lib@1.17.1';
+import { PDFDocument } from 'pdf-lib';
 
 export default {
   async fetch(request, env, ctx) {
