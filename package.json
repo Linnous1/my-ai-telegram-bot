@@ -1,0 +1,7 @@
+{
+  "name": "my-ai-telegram-bot",
+  "version": "1.0.0",
+  "dependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
