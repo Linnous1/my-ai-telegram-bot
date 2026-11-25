@@ -2,6 +2,7 @@
   "name": "my-ai-telegram-bot",
   "version": "1.0.0",
   "dependencies": {
+    "pdf-lib": "^1.17.1",
     "wrangler": "^3.0.0"
   }
 }
