@@ -11,7 +11,7 @@ export default {
         const cb = update.callback_query;
         const chatId = cb.message.chat.id;
         if (cb.data === 'lang_my' || cb.data === 'lang_en') {
-          let settingsRaw = await env.CHAT_HISTORY.get(settings_${chatId});
+          let settingsRaw = await env.CHAT_HISTORY.get(`settings_${chatId}`);
           let settings = settingsRaw ? JSON.parse(settingsRaw) : {};
           settings.lang = cb.data === 'lang_my' ? 'my' : 'en';
           await env.CHAT_HISTORY.put(settings_${chatId}, JSON.stringify(settings));
