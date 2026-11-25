@@ -88,7 +88,7 @@ export default {
         return new Response('OK');
       }
 
-      if (lowerText.startsWith('/img') || lowerText.includes('ပုံထုတ်') || lowerText.includes('image')) {
+      if (lowerText.startsWith('/img')  lowerText.includes('ပုံထုတ်')  lowerText.includes('image')) {
         let prompt = text.replace(/\/img|ပုံထုတ်ပေး|ပုံထုတ်|ပုံဆွဲ|image|picture|draw/gi, '').trim();
         if (!prompt) prompt = "a beautiful landscape"; 
         const imageResponse = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', { prompt: prompt });
@@ -104,7 +104,9 @@ export default {
         let topic = text.replace(/\/pdf|pdf|ဖိုင်|ထုတ်ပေး|ထုတ်|file|အတွက်/gi, '').trim();
         if (!topic) topic = "အထွေထွေအချက်အလက်";
         let aiPrompt = "Write a summary about: " + topic + " in Burmese.";
-        const aiResponse = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
+        
+        // 🌟 စာသားမော်ဒယ်အသစ်
+        const aiResponse = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
           messages: [{ role: 'user', content: aiPrompt }]
         });
         
@@ -148,13 +150,14 @@ export default {
         const imageBuffer = await (await fetch(fileUrl)).arrayBuffer();
         
         let visionPrompt = text || "Describe this image.";
+        
+        // 🌟 ပုံဖတ်မော်ဒယ်
         const aiResponse = await env.AI.run('@cf/meta/llama-3.2-11b-vision-instruct', {
           image: [...new Uint8Array(imageBuffer)], prompt: visionPrompt,
         });
         await sendMessage(env.TELEGRAM_BOT_TOKEN, chatId, aiResponse.response);
         return new Response('OK');
       }
-
       let history = await env.CHAT_HISTORY.get(chatId.toString());
       history = history ? JSON.parse(history) : [];
       let sysPrompt = "You are a " + settings.role + ". Reply in " + (isMyanmar ? 'Burmese' : 'English') + ".";
@@ -164,7 +167,8 @@ export default {
       history.push({ role: "user", content: text });
       if (history.length > 12) history = history.slice(-12);
       
-      const aiResponse = await env.AI.run('@cf/meta/llama-3-8b-instruct', { messages: history });
+      // 🌟 စကားပြောမော်ဒယ်အသစ်
+      const aiResponse = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', { messages: history });
       history.push({ role: "assistant", content: aiResponse.response });
       await env.CHAT_HISTORY.put(chatId.toString(), JSON.stringify(history));
       await sendMessage(env.TELEGRAM_BOT_TOKEN, chatId, aiResponse.response);
