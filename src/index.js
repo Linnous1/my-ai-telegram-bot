@@ -4,35 +4,20 @@ export default {
 
     try {
       const update = await request.json();
-      
-      // Log တွေမှာ ဘာတွေ ဖြစ်နေလဲ ကြည့်ဖို့ ရေးထားတာပါ
-      console.log("--- New Message Received ---");
-      
       if (update.message) {
         const chatId = update.message.chat.id;
-        const text = update.message.text || "";
         
-        console.log("Chat ID: " + chatId);
-        console.log("Message: " + text);
-        console.log("Token ရှိလား: " + (env.TELEGRAM_BOT_TOKEN ? "ရှိတယ်" : "မရှိဘူး"));
-        console.log("AI ရှိလား: " + (env.AI ? "ရှိတယ်" : "မရှိဘူး"));
-
-        if (text === '/start') {
-          console.log("စာပြန်ပို့ဖို့ ကြိုးစားနေပါတယ်...");
-          let url = "https://api.telegram.org/bot" + env.TELEGRAM_BOT_TOKEN + "/sendMessage";
-          
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chatId, text: "Hello! ကျွန်တော် အလုပ်လုပ်နေပါတယ်။" })
-          });
-          
-          const resData = await response.json();
-          console.log("Telegram ဆီက ပြန်လာတဲ့ အဖြေ: " + JSON.stringify(resData));
-        }
+        // Token ကို env ကနေပဲ ယူပါ
+        let url = "https://api.telegram.org/bot" + env.TELEGRAM_BOT_TOKEN + "/sendMessage";
+        
+        await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: "စမ်းသပ်မှု အောင်မြင်ပါတယ်! သင်ပို့တာ: " + update.message.text })
+        });
       }
     } catch (e) {
-      console.error("Error တက်သွားတယ်: ", e);
+      console.error(e);
     }
     return new Response('OK', { status: 200 });
   }
